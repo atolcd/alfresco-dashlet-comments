@@ -1,0 +1,11 @@
+== Installing JARs for Alfresco 3.4 ==
+
+1. Stop Alfresco
+   a. Run alfresco.sh stop (or alf_stop.bat)
+
+
+2. Copy "recent-comments-v1.0.jar" into the "/tomcat/shared/lib/" folder of your Alfresco.
+
+
+3. Start Alfresco
+   a. Run alfresco.sh start (or alf_start.bat)

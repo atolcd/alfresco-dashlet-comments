@@ -1,0 +1,14 @@
+Pour récupérer les sources de l'extension :
+  svn checkout http://labs.atolcd.com/svn/dashlet-comments/trunk
+
+
+Un script Ant est disponible à la racine du projet afin de "packager" la dashlet :
+ - dans un fichier JAR (à déposer dans /tomcat/shared/lib)
+ - ou sous forme de fichiers AMP.
+
+
+Pour générer le fichier JAR, il faut exécuter la commande suivante, en se positionnant à la racine du projet :
+  ant dist-jar
+
+Pour générer les fichiers AMP :
+  ant dist-amp
