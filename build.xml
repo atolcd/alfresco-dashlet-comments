@@ -1,0 +1,165 @@
+﻿<project name="Recent Comments Module" default="dist-jar" basedir=".">
+
+  <!--            -->
+  <!-- Properties -->
+  <!--            -->
+
+  <!-- Build and distribution directories -->
+  <property name="dist.dir" value="${basedir}/dist" />
+  <property name="build.dir" value="${basedir}/build" />
+  <property name="build.jar.dir" value="${build.dir}/jar" />
+
+  <!-- Path to module directories -->
+  <property name="alfresco.module.dir" value="${basedir}/alfresco-module" />
+  <property name="share.module.dir" value="${basedir}/share-module" />
+
+  <!-- Alfresco module directories -->
+  <property name="alfresco.module.id" value="recent-comments-alfresco-module"/>
+  <property name="alfresco.config.dir" value="${alfresco.module.dir}/config" />
+  <property name="alfresco.webscripts.dir" value="${alfresco.module.dir}/src/webscripts" />
+
+  <!-- Share module directories -->
+  <property name="share.config.dir" value="${share.module.dir}/config" />
+  <property name="share.lib.dir" value="${share.module.dir}/lib" />
+  <property name="share.web.dir" value="${share.module.dir}/web" />
+
+  <!-- JAR & AMP names -->
+  <property name="jar.dist.file.name" value="recent-comments-v1.0.jar" />
+  <property name="amp.alfresco.file.name" value="${dist.dir}/${alfresco.module.id}-v1.0.amp"/>
+  <property name="amp.share.file.name" value="${dist.dir}/recent-comments-share-module-v1.0.amp"/>
+
+  <!-- Clean out the build and distribution directories -->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <!-- Create required prerequisite directory structure -->
+  <target name="prepare">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}" />
+  </target>
+
+
+  <!--                                        -->
+  <!-- Compress share module javascript files -->
+  <!--                                        -->
+  <property name="yuicompress.warn" value="false" />
+
+  <path id="yuicompressor.classpath">
+    <fileset dir="${share.lib.dir}">
+      <include name="yuicompressor-2.4.2.jar"/>
+      <include name="yui-compressor-ant-task-0.5.jar"/>
+    </fileset>
+  </path>
+
+  <taskdef name="yuicompress" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
+    <classpath>
+      <path refid="yuicompressor.classpath"/>
+    </classpath>
+  </taskdef>
+
+  <!-- Clean *-min.js -->
+  <target name="clean.js.minify">
+    <delete includeemptydirs="true">
+      <fileset dir="${share.web.dir}" includes="**/*-min.js" />
+    </delete>
+  </target>
+  <!--                                        -->
+
+
+  <!--                                                                   -->
+  <!-- Assemble configuration and resource files in a JAR file structure -->
+  <!--                                                                   -->
+  <target name="build-jar">
+    <!--            -->
+    <!--  Alfresco  -->
+    <!--            -->
+    <mkdir dir="${build.jar.dir}" />
+    <copy todir="${build.jar.dir}/alfresco/extension/templates/webscripts" includeEmptyDirs="false">
+      <fileset dir="${alfresco.webscripts.dir}" includes="**/*.*" excludes="" />
+    </copy>
+
+    <!--            -->
+    <!--   Share    -->
+    <!--            -->
+    <copy todir="${build.jar.dir}/alfresco" includeEmptyDirs="false">
+      <fileset dir="${share.config.dir}" includes="**/*.*" excludes="site-webscripts/**" />
+    </copy>
+    <copy todir="${build.jar.dir}/alfresco/web-extension/site-webscripts" includeEmptyDirs="false">
+      <fileset dir="${share.config.dir}/site-webscripts" includes="**/*.*" excludes="" />
+    </copy>
+
+    <!-- Minify JS -->
+    <yuicompress fromdir="${share.web.dir}" todir="${share.web.dir}" excludes="**/*-min.js" warn="yuicompress.warn">
+      <include name="**/*.js" />
+    </yuicompress>
+
+    <!-- Share resource files (javascript files, css, images) -->
+    <mkdir dir="${build.jar.dir}/META-INF" />
+    <copy todir="${build.jar.dir}/META-INF" includeEmptyDirs="false">
+      <fileset dir="${share.web.dir}" includes="**/*.*" />
+    </copy>
+
+    <!-- Clean JS -->
+    <antcall target="clean.js.minify" />
+  </target>
+
+  <!--                                                              -->
+  <!-- Build a JAR file containing configuration and resource files -->
+  <!--                                                              -->
+  <target name="dist-jar" depends="clean, prepare, build-jar">
+    <jar destfile="${dist.dir}/${jar.dist.file.name}">
+      <fileset dir="${build.jar.dir}" />
+    </jar>
+    <delete dir="${build.dir}" />
+  </target>
+
+
+
+  <!--                                                                   -->
+  <!--       Assemble configuration and resource files in AMP files      -->
+  <!--                                                                   -->
+  <target name="build-amp" description="Assemble the configuration and resource files in an AMP file structure">
+    <!--                 -->
+    <!-- Alfresco module -->
+    <!--                 -->
+    <zip destfile="${amp.alfresco.file.name}" update="true">
+      <zipfileset file="${alfresco.module.dir}/*.properties" />
+      <zipfileset dir="${alfresco.config.dir}" prefix="config/alfresco/module/${alfresco.module.id}" />
+      <zipfileset dir="${alfresco.webscripts.dir}" prefix="config/alfresco/extension/templates/webscripts" />
+    </zip>
+
+    <!--                 -->
+    <!--  Share module   -->
+    <!--                 -->
+    <property name="amp.share.file.name" value="recent-comments-share-module.amp"/>
+    <property name="share.web.dir" value="${share.module.dir}/web" />
+    <property name="share.config.dir" value="${share.module.dir}/config" />
+    <property name="share.lib.dir" value="${share.module.dir}/lib" />
+
+    <zip destfile="${amp.share.file.name}" update="true">
+      <fileset dir="${share.module.dir}/" includes="*.properties" />
+      <zipfileset dir="${share.config.dir}" prefix="WEB-INF/classes/alfresco" excludes="**/*.bak" />
+    </zip>
+
+    <!-- Minify JS -->
+    <yuicompress fromdir="${share.web.dir}" todir="${share.web.dir}" excludes="**/*-min.js" warn="yuicompress.warn">
+      <include name="**/*.js" />
+    </yuicompress>
+
+    <zip destfile="${amp.share.file.name}" update="true">
+      <zipfileset dir="${share.web.dir}" prefix="web" />
+    </zip>
+
+    <!-- Clean -->
+    <antcall target="clean.js.minify" />
+  </target>
+
+  <!--                                                              -->
+  <!--  Build AMP files containing configuration and resource files -->
+  <!--                                                              -->
+  <target name="dist-amp" depends="clean, prepare, build-amp">
+    <delete dir="${build.dir}" />
+  </target>
+</project>
