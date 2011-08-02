@@ -1,0 +1,121 @@
+/*
+ * Copyright (C) 2011 Atol Conseils et Développements.
+ * http://www.atolcd.com/
+ * Author: Bertrand FOREST
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.dashlet-comments .scrollableList {
+  min-height: 20px;
+  padding: 0;
+}
+
+.dashlet-comments .comments {
+  padding: 0 !important;
+}
+
+.dashlet-comments .comment {
+  border-bottom: 1px dashed #E9E9E9;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.dashlet-comments .comment.last-item {
+  border-bottom: none;
+}
+
+.dashlet-comments .comment:hover{
+  background-color: #fff;
+}
+
+.dashlet-comments .detail-list-item {
+  min-height: 32px;
+  padding: 8px;
+  border: none;
+  text-align: justify;
+}
+
+.dashlet-comments .detail-list-item .details {
+  padding-right: 20px;
+}
+
+.dashlet-comments .body a {
+	font-weight: bold;
+}
+
+/* Footer */
+.dashlet-comments .footer {
+  background-color: #F6F6F6;
+  border-bottom: 1px solid #D3D3D3;
+  border-top: 1px solid #D3D3D3;
+  font-family: Verdana;
+  font-size: 0.9em;
+  font-style: italic;
+  height: 16px;
+  padding: 1px 5px 1px 10px;
+  text-align: left;
+}
+
+.dashlet-comments .footer-atol {
+  float: right;
+}
+
+.dashlet-comments .footer-left {
+  float: left;
+}
+
+/* Title actions */
+.dashlet-comments .title {
+  overflow-x: visible;
+}
+
+/* Refresh button */
+.dashlet-comments .refresh {
+  background-image: url("../images/refresh.png");
+  float: right;
+  height: 16px;
+  left: -8px;
+  position: relative;
+  top: 4px;
+  width: 16px;
+}
+
+.dashlet-comments .refresh-loading {
+  background-image: url("../images/refresh_loading.gif");
+  float: right;
+  height: 16px;
+  left: -8px;
+  position: relative;
+  top: 4px;
+  width: 16px;
+}
+
+.dashlet-comments .refresh a, .dashlet-comments .refresh a:active, .dashlet-comments .refresh a:hover {
+  display: block;
+  height: 16px;
+  text-decoration: none;
+  width: 16px;
+}
+
+.dashlet-comments .refresh a:hover {
+  background-image: url("../images/refresh_hover.png");
+}
+
+/* Feed button */
+.dashlet-comments  .feed.comments-feed {
+  left: -30px;
+  top: -23px;
+}
