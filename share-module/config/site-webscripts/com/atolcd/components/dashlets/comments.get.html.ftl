@@ -1,5 +1,5 @@
 <#--
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
-<#assign el=args.htmlid?js_string>
+<#assign id = args.htmlid>
+<#assign jsid = args.htmlid?js_string>
 
 <script type="text/javascript">//<![CDATA[
-   new Alfresco.dashlet.RecentComments("${el}").setOptions(
+(function()
+{
+   var comments = new Alfresco.dashlet.RecentComments("${jsid}").setOptions(
    {
       siteId: "${page.url.templateArgs.site!""}",
       maxItems: ${preferences.recentCommentsMaxItemsFilter!'20'},
@@ -28,26 +31,50 @@
    }).setMessages(
       ${messages}
    );
-   new Alfresco.widget.DashletResizer("${el}", "${instance.object.id}");
+
+   new Alfresco.widget.DashletResizer("${jsid}", "${instance.object.id}");
+
+   var activitiesFeedDashletEvent = new YAHOO.util.CustomEvent("openFeedClick");
+   activitiesFeedDashletEvent.subscribe(comments.openFeedLink, comments, true);
+
+   var refreshDashletEvent = new YAHOO.util.CustomEvent("refreshDashletClick");
+   refreshDashletEvent.subscribe(comments.onRefresh, comments, true);
+
+   new Alfresco.widget.DashletTitleBarActions("${jsid}").setOptions(
+   {
+      actions:
+      [
+         {
+            cssClass: "rss",
+            eventOnClick: activitiesFeedDashletEvent,
+            tooltip: "${msg("dashlet.rss.tooltip")?js_string}"
+         },
+         {
+            cssClass: "refresh",
+            id: "-refresh",
+            eventOnClick: refreshDashletEvent,
+            tooltip: "${msg("dashlet.refresh.tooltip")?js_string}"
+         }
+      ]
+   });
+})();
 //]]></script>
 
 <div class="dashlet dashlet-comments">
-   <div class="refresh" id="${el}-refresh"><a href="#">&nbsp;</a></div>
    <div class="title">${msg('header')}</div>
-   <div class="feed comments-feed"><a id="${el}-feedLink" href="#" target="_blank">&nbsp;</a></div>
    <div class="toolbar flat-button">
-      <input id="${el}-all" type="checkbox" name="all" value="${msg('filter.all')}" checked="checked" />
+      <input id="${id}-all" type="checkbox" name="all" value="${msg('filter.all')}" checked="checked" />
 
       <#if page.url.templateArgs.site??>
-        <input id="${el}-filter" type="button" name="filter" value="${msg('filter.documentLibrary')}" />
-        <select id="${el}-filter-menu">
+        <input id="${id}-filter" type="button" name="filter" value="${msg('filter.documentLibrary')}" />
+        <select id="${id}-filter-menu">
            <option value="blog">${msg('filter.blog')}</option>
            <option value="documentLibrary">${msg('filter.documentLibrary')}</option>
            <option value="links">${msg('filter.links')}</option>
         </select>
       <#else>
-        <input id="${el}-filter" type="button" name="filter" value="${msg('filter.mySites')}" />
-        <select id="${el}-filter-menu">
+        <input id="${id}-filter" type="button" name="filter" value="${msg('filter.mySites')}" />
+        <select id="${id}-filter-menu">
            <option value="mySites">${msg('filter.mySites')}</option>
            <option value="favouriteSites">${msg('filter.favouriteSites')}</option>
            <option value="allSites">${msg('filter.allSites')}</option>
@@ -55,8 +82,8 @@
         </select>
       </#if>
 
-      <input id="${el}-filter-range" type="button" name="filter-range" value="${msg('filter.all')}" />
-      <select id="${el}-filter-range-menu">
+      <input id="${id}-filter-range" type="button" name="filter-range" value="${msg('filter.all')}" />
+      <select id="${id}-filter-range-menu">
          <option value="">${msg("filter.all")}</option>
          <option value="today">${msg("filter.today")}</option>
          <option value="7">${msg("filter.7days")}</option>
@@ -66,8 +93,8 @@
          <option value="182">${msg("filter.6months")}</option>
       </select>
 
-      <input id="${el}-filter-max-items" type="button" name="filter-max-items" value="20" />
-      <select id="${el}-filter-max-items-menu">
+      <input id="${id}-filter-max-items" type="button" name="filter-max-items" value="20" />
+      <select id="${id}-filter-max-items-menu">
          <option value="5">5</option>
          <option value="10">10</option>
          <option value="15">15</option>
@@ -77,10 +104,10 @@
       </select>
    </div>
    <div class="body scrollableList" <#if args.height??>style="height: ${args.height}px;"</#if>>
-      <div class="comments" id="${el}-comments"></div>
+      <div class="comments" id="${id}-comments"></div>
    </div>
    <div class="ft footer">
-      <div class="footer-left" id="${el}-footer"></div>
+      <div class="footer-left" id="${id}-footer"></div>
       <div class="footer-atol">
         <a href="http://www.atolcd.com" target="_blank" title="Atol Conseils & Développements">
           <img src="${page.url.context}/res/components/dashlets/comments/images/atolcd.png" alt="Atol" />

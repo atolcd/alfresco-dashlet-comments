@@ -1,21 +1,29 @@
-/**
- * Copyright (C) 2005-2010 Alfresco Software Limited.
+/*
+ * Copyright (C) 2012 Atol Conseils et Développements.
+ * http://www.atolcd.com/
+ * Author: Bertrand FOREST
  *
- * This file is part of Alfresco
- *
- * Alfresco is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Alfresco is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+if (typeof Atol == "undefined" || !Atol) {
+  var Atol = {};
+}
+
+Atol.util = Atol.util || {};
+
+Atol.widget = Atol.widget || {};
 
 /**
  * Creates a "balloon tooltip" UI control attached to a passed-in element.
@@ -28,7 +36,7 @@
  * </pre>
  * @return {object|null} Balloon instance
  */
-Alfresco.util.createBalloon = function(p_context, p_params)
+Atol.util.createBalloon = function(p_context, p_params)
 {
    var elContext = YUIDom.get(p_context);
    if (YAHOO.lang.isNull(elContext))
@@ -46,7 +54,7 @@ Alfresco.util.createBalloon = function(p_context, p_params)
       width: "30em"
    }, p_params || {});
 
-   return (new Alfresco.widget.Balloon(elContext, p_params));
+   return (new Atol.widget.Balloon(elContext, p_params));
 };
 
 (function()
@@ -72,7 +80,7 @@ Alfresco.util.createBalloon = function(p_context, p_params)
     * @return {Alfresco.widget.Balloon} The new Balloon instance
     * @constructor
     */
-   Alfresco.widget.Balloon = function(p_context, p_params)
+   Atol.widget.Balloon = function(p_context, p_params)
    {
       var balloon = new YAHOO.widget.Overlay(Alfresco.util.generateDomId(),
       {
@@ -102,11 +110,8 @@ Alfresco.util.createBalloon = function(p_context, p_params)
          balloon.showMacGeckoScrollbars = function(){ Dom.replaceClass(this.element, "hide-scrollbars", "prevent-scrollbars"); };
       }
 
-      var wrapper = document.createElement("div")/*,
-         arrow = document.createElement("div")*/;
-
-      Dom.addClass(wrapper, "balloon");
-      // Dom.addClass(arrow, "balloon-arrow");
+      var wrapper = document.createElement("div");
+      Dom.addClass(wrapper, "comment-balloon");
 
       if (p_params.closeButton)
       {
@@ -121,7 +126,6 @@ Alfresco.util.createBalloon = function(p_context, p_params)
       Dom.addClass(content, "text");
       content.innerHTML = p_params.html || $html(p_params.text);
       wrapper.appendChild(content);
-      // wrapper.appendChild(arrow);
 
       balloon.setBody(wrapper);
       balloon.render(document.body);
@@ -134,67 +138,5 @@ Alfresco.util.createBalloon = function(p_context, p_params)
       return this;
    };
 
-   Alfresco.widget.Balloon.prototype =
-   {
-      /**
-       * YAHOO.widget.Overlay instance
-       *
-       * @property balloon
-       */
-      balloon: null,
-
-      /**
-       * Element containing balloon's content
-       *
-       * @property content
-       */
-      content: null,
-
-      /**
-       * Hides the balloon
-       *
-       * @method hide
-      */
-      hide: function Balloon_hide()
-      {
-         this.balloon.hide();
-         this.onClose.fire();
-      },
-
-      /**
-       * Shows the balloon
-       *
-       * @method show
-      */
-      show: function Balloon_show()
-      {
-         this.balloon.show();
-         this.balloon.bringToTop();
-         this.onShow.fire();
-      },
-
-      /**
-       * Sets the HTML content of the balloon.
-       *
-       * @method html
-       * @param content {String} Contents will be inserted as-is with no escaping.
-      */
-      html: function Balloon_html(content)
-      {
-         this.content.innerHTML = content;
-         this.balloon.align();
-      },
-
-      /**
-       * Sets the text content of the balloon.
-       *
-       * @method text
-       * @param content {String} Contents will be inserted after being safely HTML-encoded.
-      */
-      text: function Balloon_text(content)
-      {
-         this.content.innerHTML = $html(content);
-         this.balloon.align();
-      }
-   };
+   YAHOO.extend(Atol.widget.Balloon, Alfresco.widget.Balloon);
 })();

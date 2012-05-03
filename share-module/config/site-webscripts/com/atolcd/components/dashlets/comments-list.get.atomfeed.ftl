@@ -1,5 +1,5 @@
 <#--
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -33,7 +33,7 @@
     <#list comments as comment>
       <#assign itemLink = "<a href=\"${absurl(comment.itemPage.url)}\">${comment.itemPage.displayName?html}</a>">
       <#assign userLink = "<a href=\"${absurl(comment.userProfile)}\">${comment.modifiedBy?html}</a>">
-      <#assign detail =  msg("message.commented-on", userLink, itemLink, comment.date.fullDate?datetime?string(msg("date-format.defaultFTL"))) />
+      <#assign detail =  msg("message.commented-on", userLink, itemLink, comment.date.fullDate?datetime?string(msg("date-format.rfc822"))) />
       <#assign entryTitle = msg("message.commented", comment.modifiedBy, comment.itemPage.displayName) />
       <#if comment.site?has_content>
         <#assign siteLink = "<a href=\"${absurl(comment.site.sitePage)}\">${comment.site.title?html}</a>">

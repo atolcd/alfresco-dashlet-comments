@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -138,9 +138,6 @@
       this.commentsContainer = Dom.get(this.id + "-comments");
       this.footer = Dom.get(this.id + "-footer");
 
-      // Hook the refresh icon click
-      Event.addListener(this.id + "-refresh", "click", this.onRefresh, this, true);
-
       // Preferences service
       this.services.preferences = new Alfresco.service.Preferences();
 
@@ -273,20 +270,22 @@
      */
     updateFeedLink: function RecentComments_updateFeedLink()
     {
-       var link = Dom.get(this.id + "-feedLink");
-       if (link) {
-          var url = Alfresco.constants.URL_FEEDSERVICECONTEXT + "components/dashlets/comments/list?";
-          var dataObj =
-          {
-             format: "atomfeed",
-             siteId: this.options.siteId,
-             containerId: this.containerId,
-             limit: this.options.maxItems,
-             range: this.options.rangeFilter
-          };
-          url += Alfresco.util.Ajax.jsonToParamString(dataObj, true);
-          link.setAttribute("href", url);
-       }
+      var url = Alfresco.constants.URL_FEEDSERVICECONTEXT + "components/dashlets/comments/list?";
+      var dataObj =
+      {
+         format: "atomfeed",
+         siteId: this.options.siteId,
+         containerId: this.containerId,
+         limit: this.options.maxItems,
+         range: this.options.rangeFilter
+      };
+      url += Alfresco.util.Ajax.jsonToParamString(dataObj, true);
+      this.link = url;
+    },
+
+    openFeedLink: function RecentComments_openFeedLink()
+    {
+       window.open(this.link);
     },
 
     /**

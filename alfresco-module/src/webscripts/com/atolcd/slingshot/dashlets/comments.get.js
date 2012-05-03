@@ -1,6 +1,6 @@
 <import resource="classpath:/alfresco/templates/webscripts/org/alfresco/slingshot/search/search.lib.js">
 /*
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *

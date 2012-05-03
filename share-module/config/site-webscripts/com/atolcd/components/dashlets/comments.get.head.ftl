@@ -1,5 +1,5 @@
 <#--
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -20,11 +20,10 @@
 
 <!-- Comments -->
 <@link rel="stylesheet" type="text/css" href="${page.url.context}/res/components/dashlets/comments/css/comments.css" />
-<@link rel="stylesheet" type="text/css" href="${page.url.context}/res/components/dashlets/comments/css/tooltip.css" />
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="${page.url.context}/res/components/dashlets/comments/css/comments-ie.css" />
 <![endif]-->
 
-<@script type="text/javascript" src="${page.url.context}/res/components/dashlets/comments/alfresco-widget-balloon-4.0.js"></@script>
+<@script type="text/javascript" src="${page.url.context}/res/components/dashlets/comments/comment-balloon.js"></@script>
 <@script type="text/javascript" src="${page.url.context}/res/components/dashlets/comments/comment-view-details-actions.js"></@script>
 <@script type="text/javascript" src="${page.url.context}/res/components/dashlets/comments/comments.js"></@script>

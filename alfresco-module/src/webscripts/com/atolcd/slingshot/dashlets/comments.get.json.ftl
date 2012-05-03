@@ -1,5 +1,5 @@
 <#--
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -52,7 +52,7 @@
 <#escape x as jsonUtils.encodeJSONString(x)>
 [
   <#if comments??>
-    <#list comments as comment>
+    <#list comments?sort_by("modifiedOn")?reverse as comment>
       <@renderItem comment /><#if comment_has_next>,</#if>
     </#list>
   </#if>

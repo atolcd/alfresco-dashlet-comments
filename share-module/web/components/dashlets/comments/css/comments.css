@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -53,8 +53,27 @@
 }
 
 .dashlet-comments .body a {
-	font-weight: bold;
+  font-weight: bold;
 }
+
+.dashlet-comments  .viewCommentAction {
+  position: relative;
+  top: 8px;
+}
+
+.dashlet-comments  .viewCommentAction .viewCommentActionIcon {
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  float: right;
+  height: 16px;
+  width: 16px;
+}
+
+.dashlet-comments  .viewCommentAction .comment {
+  background-image: url(../images/view-comment-details.png);
+}
+
 
 /* Footer */
 .dashlet-comments .footer {
@@ -77,45 +96,62 @@
   float: left;
 }
 
-/* Title actions */
-.dashlet-comments .title {
-  overflow-x: visible;
-}
 
 /* Refresh button */
 .dashlet-comments .refresh {
   background-image: url("../images/refresh.png");
-  float: right;
-  height: 16px;
-  left: -8px;
-  position: relative;
-  top: 4px;
-  width: 16px;
 }
 
 .dashlet-comments .refresh-loading {
   background-image: url("../images/refresh_loading.gif");
-  float: right;
-  height: 16px;
-  left: -8px;
-  position: relative;
-  top: 4px;
-  width: 16px;
 }
 
-.dashlet-comments .refresh a, .dashlet-comments .refresh a:active, .dashlet-comments .refresh a:hover {
-  display: block;
-  height: 16px;
-  text-decoration: none;
-  width: 16px;
-}
-
-.dashlet-comments .refresh a:hover {
+.dashlet-comments .refresh:hover {
   background-image: url("../images/refresh_hover.png");
 }
 
-/* Feed button */
-.dashlet-comments  .feed.comments-feed {
-  left: -30px;
-  top: -23px;
+
+/* Balloon pop-up */
+.comment-balloon {
+  background: rgba(0, 0, 0, 0.8);
+  color: #e8e8e8;
+  left: -10px;
+  margin: 1em 10px 15px;
+  padding: 15px;
+  position: relative;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  /* outline radius for mozilla/firefox only */
+  -moz-box-shadow: 0 0 10px #000;
+  -webkit-box-shadow: 0 0 10px #000;
+}
+
+.comment-balloon .closeButton {
+  background-image: url(../images/close.png);
+  background-repeat: no-repeat;
+  width: 16px;
+  cursor: pointer;
+  color: #888;
+  float: right;
+  left: 6px;
+  position: relative;
+  top: -8px;
+}
+
+.comment-balloon .closeButton:hover {
+  background-image: url(../images/close_hover.png);
+}
+
+.comment-balloon .text {
+  font: 13px/1.231 arial,helvetica,clean,sans-serif;
+  text-align: left;
+}
+
+.comment-balloon .text ul {
+  padding-left: 2em;
+}
+
+.comment-balloon .text ul li {
+  list-style: disc;
 }

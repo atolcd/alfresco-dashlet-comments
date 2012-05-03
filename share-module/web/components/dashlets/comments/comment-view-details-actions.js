@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Atol Conseils et Développements.
+ * Copyright (C) 2012 Atol Conseils et Développements.
  * http://www.atolcd.com/
  * Author: Bertrand FOREST
  *
@@ -116,7 +116,7 @@ var COMMENT_ACTIONS_OPACITY = 0,
          if (this.comment && this.commentIcon && this.commentDetails)
          {
             this.actionsNode = document.createElement("div");
-            Dom.addClass(this.actionsNode, "titleBarActions");  // This class sets the position of the actions.
+            Dom.addClass(this.actionsNode, "viewCommentAction");  // This class sets the position of the actions.
             if (YAHOO.env.ua.ie > 0)
             {
                // IE doesn't handle the fading in/out very well so we won't do it.
@@ -146,7 +146,7 @@ var COMMENT_ACTIONS_OPACITY = 0,
                   {
                      Dom.setAttribute(currActionNode, "title", currAction.tooltip);
                   }
-                  Dom.addClass(currActionNode, "titleBarActionIcon");
+                  Dom.addClass(currActionNode, "viewCommentActionIcon");
                   Dom.addClass(currActionNode, currAction.cssClass);   // Set the class (this should add the icon image
                   this.actionsNode.appendChild(currActionNode);        // Add the node to the parent
 
@@ -192,7 +192,7 @@ var COMMENT_ACTIONS_OPACITY = 0,
                   }
                   else if (currAction.bubbleOnClick)
                   {
-                     var balloon = Alfresco.util.createBalloon(this.id,
+                     var balloon = Atol.util.createBalloon(this.id,
                      {
                         html: currAction.bubbleOnClick.message,
                         width: "30em"
